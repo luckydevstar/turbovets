@@ -1,0 +1,95 @@
+/* Empty State Styles */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-state-content {
+  max-width: 400px;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Additional task-specific styles */
+.task-item {
+  position: relative;
+}
+
+.task-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--primary-color);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.task-item:hover::before {
+  opacity: 1;
+}
+
+/* Form enhancements */
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+/* Animation for new tasks */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-item {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Loading states */
+.btn:disabled {
+  position: relative;
+}
+
+.btn:disabled::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

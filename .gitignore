@@ -1,0 +1,19 @@
+
+.nx/installation
+.nx/cache
+.nx/workspace-data
+.angular
+
+/node_modules
+/dist
+/build
+/tmp
+
+# environment
+.env
+*.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

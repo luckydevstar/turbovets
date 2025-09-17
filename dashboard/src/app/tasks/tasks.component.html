@@ -1,0 +1,143 @@
+<div class="task-dashboard">
+  <div class="task-header">
+    <h2>📋 Task Management</h2>
+    <p>Organize and track your veterinary tasks efficiently</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <span>⚠️</span>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Task Form -->
+  <div class="card add-task-card">
+    <div class="card-header">
+      <h3>➕ Add New Task</h3>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="addTask()" class="add-task-form">
+        <div class="form-group">
+          <label class="form-label">Task Title</label>
+          <input 
+            [(ngModel)]="newTask.title" 
+            name="title" 
+            class="form-input" 
+            placeholder="Enter task title" 
+            required 
+          />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Assigned To</label>
+          <input 
+            [(ngModel)]="newTask.assignedTo" 
+            name="assignedTo" 
+            class="form-input" 
+            placeholder="Enter assignee name" 
+          />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea 
+            [(ngModel)]="newTask.description" 
+            name="description" 
+            class="form-input" 
+            placeholder="Enter task description" 
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <span>✨</span>
+          Add Task
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Task List -->
+  <div class="task-list">
+    <div *ngFor="let task of tasks" class="task-item">
+      <div class="task-header-info">
+        <div>
+          <h4 class="task-title">{{ task.title }}</h4>
+          <p class="task-description">{{ task.description }}</p>
+          <span *ngIf="task.assignedTo" class="task-assigned">
+            👤 Assigned to: {{ task.assignedTo }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Show edit form if editing -->
+      <div *ngIf="editingTask?.id === task.id" class="task-edit-form">
+        <h5>✏️ Edit Task</h5>
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input 
+            [(ngModel)]="editingTask!.title" 
+            class="form-input" 
+            placeholder="Task title" 
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea 
+            [(ngModel)]="editingTask!.description" 
+            class="form-input" 
+            placeholder="Task description" 
+            rows="2"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assigned To</label>
+          <input 
+            [(ngModel)]="editingTask!.assignedTo" 
+            class="form-input" 
+            placeholder="Assignee name" 
+          />
+        </div>
+        <div class="task-edit-actions">
+          <button (click)="saveEdit(task.id)" class="btn btn-primary btn-sm">
+            <span>💾</span>
+            Save
+          </button>
+          <button (click)="cancelEdit()" class="btn btn-secondary btn-sm">
+            <span>❌</span>
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div *ngIf="editingTask?.id !== task.id" class="task-actions">
+        <button 
+          *ngIf="canEditOrDelete()" 
+          (click)="startEdit(task)" 
+          class="btn btn-secondary btn-sm"
+        >
+          <span>✏️</span>
+          Edit
+        </button>
+        <button 
+          *ngIf="canEditOrDelete()" 
+          (click)="deleteTask(task.id)" 
+          class="btn btn-danger btn-sm"
+        >
+          <span>🗑️</span>
+          Delete
+        </button>
+      </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="tasks.length === 0" class="empty-state">
+      <div class="empty-state-content">
+        <span class="empty-state-icon">📝</span>
+        <h3>No tasks yet</h3>
+        <p>Create your first task to get started with task management.</p>
+      </div>
+    </div>
+  </div>
+</div>

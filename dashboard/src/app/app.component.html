@@ -1,0 +1,33 @@
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <h1 class="brand-title">🐾 TurboVets</h1>
+    </div>
+    <span class="brand-subtitle">Secure Tasks</span>
+    <div class="navbar-menu" *ngIf="authService.isLoggedIn()">
+      <a routerLink="/tasks" routerLinkActive="active" class="nav-link">
+        📋 Tasks
+      </a>
+    </div>
+    
+    <div class="navbar-actions">
+      <div *ngIf="!authService.isLoggedIn()" class="auth-links">
+        <a routerLink="/login" class="">Login</a>
+      </div>
+      
+      <div *ngIf="authService.isLoggedIn()" class="user-menu">
+        <div class="user-info">
+          <span class="user-avatar">👤</span>
+          <span class="user-email">{{ authService.getUserEmail() }}</span>
+        </div>
+        <button (click)="logout()" class="btn btn-secondary btn-sm">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
