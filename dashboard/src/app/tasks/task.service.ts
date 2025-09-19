@@ -16,29 +16,25 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.get<Task[]>(this.apiUrl, { headers });
+    return this.http.get<Task[]>(this.apiUrl, { withCredentials: true });
   }
 
   addTask(task: Partial<Task>): Observable<Task> {
-    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    return this.http.post<Task>(this.apiUrl, task, { headers });
+    return this.http.post<Task>(this.apiUrl, task, { headers, withCredentials: true });
   }
   deleteTask(id: number) {
-    const token = localStorage.getItem('token');
     return this.http.delete(`${this.apiUrl}/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
+      withCredentials: true
     });
   }
   updateTask(id: number, update: Partial<Task>) {
-    return this.http.put<Task>(`http://localhost:3000/api/tasks/${id}`, update);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put<Task>(`http://localhost:3000/api/tasks/${id}`, update, { headers, withCredentials: true });
   }
 
 }

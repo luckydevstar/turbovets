@@ -1,7 +1,16 @@
 <div class="task-dashboard">
   <div class="task-header">
-    <h2>📋 Task Management</h2>
-    <p>Organize and track your veterinary tasks efficiently</p>
+    <div class="header-content">
+      <div class="title-section">
+        <h2>📋 Task Management</h2>
+        <p>Organize and track your veterinary tasks efficiently</p>
+      </div>
+      <div class="navigation">
+        <button routerLink="/tasks" class="nav-btn active">📋 Tasks</button>
+        <button routerLink="/audit" class="nav-btn" *ngIf="canAccessAudit()">🔍 Audit Logs</button>
+        <button (click)="logout()" class="nav-btn logout">🚪 Logout</button>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="errorMessage" class="alert alert-error">

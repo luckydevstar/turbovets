@@ -1,3 +1,47 @@
+/* Navigation Styles */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.title-section h2 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+
+.title-section p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.navigation {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Navigation styles are now in global styles.scss */
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .navigation {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .nav-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
 /* Empty State Styles */
 .empty-state {
   display: flex;
@@ -73,7 +117,7 @@ textarea.form-input {
   animation: slideIn 0.3s ease-out;
 }
 
-/* Loading states */
+/* Loading states for buttons */
 .btn:disabled {
   position: relative;
 }

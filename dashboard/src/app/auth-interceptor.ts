@@ -10,17 +10,11 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      const cloned = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return next.handle(cloned);
-    }
-
-    return next.handle(req);
+    // For HttpOnly cookies, we need to include credentials with requests
+    const cloned = req.clone({
+      withCredentials: true
+    });
+    
+    return next.handle(cloned);
   }
 }

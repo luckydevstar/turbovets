@@ -20,16 +20,30 @@ export class LoginComponent {
   login() {
     console.log('Sending:', { email: this.email, password: this.password });
 
-    this.http.post<{ access_token: string }>('http://localhost:3000/api/auth/login', {
+    this.http.post<{ message: string; user: any }>('http://localhost:3000/api/auth/login', {
       email: this.email,
       password: this.password
-    }).subscribe({
+    }, { withCredentials: true }).subscribe({
       next: (res) => {
-        localStorage.setItem('token', res.access_token);
+        console.log('Login successful:', res);
+        // Store user info in sessionStorage for frontend use
+        sessionStorage.setItem('userEmail', res.user.email);
+        sessionStorage.setItem('userRole', res.user.role);
+        sessionStorage.setItem('organizationId', res.user.organizationId);
+        sessionStorage.setItem('departmentId', res.user.departmentId);
+        
+        console.log('User data stored:', {
+          email: res.user.email,
+          role: res.user.role,
+          organizationId: res.user.organizationId,
+          departmentId: res.user.departmentId
+        });
+        
         this.router.navigate(['/tasks']);
       },
-      error: () => {
-        this.errorMessage = 'Invalid email or password';
+      error: (error) => {
+        console.error('Login error:', error);
+        this.errorMessage = error.error?.message || 'Login failed. Please try again.';
       }
     });
   }

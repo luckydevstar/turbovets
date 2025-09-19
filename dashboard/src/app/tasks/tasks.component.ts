@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TaskService, Task } from './task.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './tasks.component.html'
 })
 export class TasksComponent implements OnInit {
@@ -90,6 +91,14 @@ export class TasksComponent implements OnInit {
   
   canEditOrDelete(): boolean {
     return this.role === 'admin' || this.role === 'manager';
+  }
+
+  canAccessAudit(): boolean {
+    return this.role === 'admin' || this.role === 'manager';
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

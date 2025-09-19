@@ -4,4 +4,9 @@ export interface Task {
   description: string;
   assignedTo: string;  // userId
   completed: boolean;
+  organizationId: string;
+  departmentId?: string;
+  createdBy: string;  // userId
+  createdAt: Date;
+  updatedAt: Date;
 }

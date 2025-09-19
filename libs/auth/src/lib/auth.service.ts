@@ -7,9 +7,10 @@ export class AuthService {
 
   // Fake users for demo (later you can replace with DB lookup)
   private users = [
-    { id: 1, email: 'admin@test.com', password: 'password', role: 'admin' },
-    { id: 2, email: 'manager@test.com', password: 'password', role: 'manager' },
-    { id: 3, email: 'user@test.com', password: 'password', role: 'user' },
+    { id: '1', email: 'admin@test.com', password: 'password', role: 'admin', organizationId: 'org1', departmentId: 'dept1' },
+    { id: '2', email: 'manager@test.com', password: 'password', role: 'manager', organizationId: 'org1', departmentId: 'dept1' },
+    { id: '3', email: 'user@test.com', password: 'password', role: 'user', organizationId: 'org1', departmentId: 'dept2' },
+    { id: '4', email: 'viewer@test.com', password: 'password', role: 'user', organizationId: 'org2', departmentId: 'dept3' },
   ];
 
   async validateUser(email: string, pass: string) {
@@ -23,7 +24,13 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { sub: user.id, email: user.email, role: user.role };
+    const payload = { 
+      sub: user.id, 
+      email: user.email, 
+      role: user.role,
+      organizationId: user.organizationId,
+      departmentId: user.departmentId
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

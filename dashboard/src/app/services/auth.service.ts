@@ -8,31 +8,32 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   constructor(private router: Router) {}
   getToken(): string | null {
-    return localStorage.getItem('token');
+    // For HttpOnly cookies, we can't access the token directly
+    // The token will be automatically sent with requests via cookies
+    return null;
   }
 
   getUserEmail(): string | null {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-
-    try {
-        const decoded = jwtDecode<{ email: string }>(token);
-        return decoded.email;
-    } catch {
-        return null;
-    }
+    // For HttpOnly cookies, we need to get user info from a separate endpoint
+    // For now, we'll store basic info in sessionStorage after login
+    return sessionStorage.getItem('userEmail');
  }
   getUserRole(): string | null {
-    const token = this.getToken();
-    if (!token) return null;
+    // For HttpOnly cookies, we need to get user info from a separate endpoint
+    // For now, we'll store basic info in sessionStorage after login
+    return sessionStorage.getItem('userRole');
+  }
 
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.role || null;
-    } catch (e) {
-      console.error('Error decoding token', e);
-      return null;
-    }
+  getOrganizationId(): string | null {
+    // For HttpOnly cookies, we need to get user info from a separate endpoint
+    // For now, we'll store basic info in sessionStorage after login
+    return sessionStorage.getItem('organizationId');
+  }
+
+  getDepartmentId(): string | null {
+    // For HttpOnly cookies, we need to get user info from a separate endpoint
+    // For now, we'll store basic info in sessionStorage after login
+    return sessionStorage.getItem('departmentId');
   }
   isAdmin(): boolean {
     return this.getUserRole() === 'admin';
@@ -46,19 +47,19 @@ export class AuthService {
     return this.getUserRole() === 'user';
   }
   logout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);  
+    // Clear session storage
+    sessionStorage.removeItem('userEmail');
+    sessionStorage.removeItem('userRole');
+    sessionStorage.removeItem('organizationId');
+    sessionStorage.removeItem('departmentId');
+    
+    // For HttpOnly cookies, we need to call a logout endpoint to clear the cookie
+    // For now, just navigate to login
+    this.router.navigate(['/login']);
   }
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
-    if (!token) return false;
-
-    try {
-        const decoded: any = jwtDecode(token);
-        return decoded.exp * 1000 > Date.now(); // check expiry
-    } catch (e) {
-        return false;
-    }
+    // For HttpOnly cookies, check if we have user info in sessionStorage
+    return !!sessionStorage.getItem('userEmail');
   }
 
 }
